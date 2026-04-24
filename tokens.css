@@ -1,6 +1,182 @@
 /*
- * CBKDI Design System - tokens.css
+ * CBKDI Design System — tokens.css
  *
- * Stub. U2 of the 2026-04-23 design-system plan authors the full Tailwind v4
- * @theme block here. Do not consume yet.
+ * Authoritative Tailwind v4 @theme block for cbkdi.com and every future CBKDI
+ * surface. Hand-authored in this repo; consumed by copy-with-commit-hash.
+ *
+ * Dark-mode strategy: two distinct tokens per light/dark semantic (e.g.
+ * --color-surface-light / --color-surface-dark) paired with Tailwind's
+ * dark: variant at consumer sites. This matches what cbkdi-website's
+ * global.css already ships and what Tailwind v4 docs model cleanly. A
+ * single-token + html.dark override path was considered and rejected (plan
+ * U2, 2026-04-23) because it relies on runtime CSS-variable overrides
+ * bypassing Tailwind's utility generation, which is fragile under @theme.
+ *
+ * A handful of non-utility tokens (focus ring, z-index) live outside @theme
+ * so they can be consumed via var() directly from component CSS.
+ *
+ * Faces (--font-display, --font-mono) are placeholders. U6 of the plan
+ * finalizes face selection; once chosen, update here and re-vendor.
  */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* ==========================================================================
+   * Colors
+   * ========================================================================== */
+
+  /* Brand purple — single-accent scale. Anchored at 700 = #4f3d78. */
+  --color-brand-50: #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-200: #ddd6fe;
+  --color-brand-300: #c4b5fd;
+  --color-brand-400: #a78bdb;
+  --color-brand-500: #8b6fc0;
+  --color-brand-600: #6d4ea3;
+  --color-brand-700: #4f3d78;
+  --color-brand-800: #3d2e62;
+  --color-brand-900: #2e224a;
+  --color-brand-950: #1a1333;
+
+  /* Neutral scale. Replaces ad-hoc arbitrary hex literals across the site
+   * (#1a1a1a, #2a2a2a, #4a4a4a, #6e6e6e, #808080, #aaa, #ddd, #e5e5e5).
+   * Light mode runs 50→950; dark mode inverts ordering at consumer sites. */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f2f1f4;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #dddddd;
+  --color-neutral-400: #aaaaaa;
+  --color-neutral-500: #808080;
+  --color-neutral-600: #6e6e6e;
+  --color-neutral-700: #4a4a4a;
+  --color-neutral-800: #2a2a2a;
+  --color-neutral-900: #1a1a1a;
+  --color-neutral-950: #141218;
+
+  /* Surfaces. Dark picks the warm near-black #141218 (deliberate over the
+   * previous #111111 — slightly purple-tinged, editorial). Card surfaces sit
+   * one step above the page surface in each mode. */
+  --color-surface-light: #fafafa;
+  --color-surface-dark: #141218;
+  --color-surface-card-light: #f2f1f4;
+  --color-surface-card-dark: #1f1d24;
+
+  /* Rules / hairlines. Used for section dividers, card borders, TOC edges. */
+  --color-rule-light: #dddddd;
+  --color-rule-dark: #2a2a2a;
+
+  /* Error state for form validation. Decoupled from browser-default red so
+   * the palette reads as intentional. Each side passes WCAG AA against its
+   * matched surface. */
+  --color-error-light: #b4232c;
+  --color-error-dark: #f07a82;
+
+  /* ==========================================================================
+   * Typography
+   * ========================================================================== */
+
+  /* Face stacks. Display + mono are placeholders until U6 of the plan
+   * commits specific faces. Fallback stacks are intentionally conservative
+   * so that font-load failure degrades to a readable state. */
+  --font-display: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  --font-reading: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Type scale — UI / marketing surfaces. clamp() values extended from
+   * cbkdi-website/docs/design-audit.md; eyebrow added for tracked mono
+   * labels that precede section headings. */
+  --text-eyebrow: 0.75rem;
+  --text-small: clamp(0.8125rem, 0.78rem + 0.16vw, 0.875rem);
+  --text-body: clamp(0.9375rem, 0.88rem + 0.28vw, 1.0625rem);
+  --text-section-head: clamp(1.1875rem, 1.05rem + 0.7vw, 1.5rem);
+  --text-hero: clamp(1.625rem, 1.3rem + 1.6vw, 2.5rem);
+
+  /* Type scale — /writing long-form. Slightly larger than UI body and tuned
+   * for reading measure. Final commit in U10 of the plan. */
+  --text-reading-base: clamp(1rem, 0.94rem + 0.28vw, 1.125rem);
+  --text-reading-h2: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --text-reading-h3: clamp(1.125rem, 1.04rem + 0.4vw, 1.3125rem);
+
+  /* Line-heights per face. Display is tight (~1.1), body is comfortable
+   * (1.6), mono stays a touch denser (1.45) because it's used for
+   * chrome / labels / captions; reading body gets the loosest leading. */
+  --leading-display: 1.1;
+  --leading-body: 1.6;
+  --leading-mono: 1.45;
+  --leading-reading: 1.7;
+
+  /* Letter-spacing. The tracked-uppercase wordmark + eyebrow labels use
+   * 0.08em; mono-chrome labels in RevisionStamp-style captions go tighter. */
+  --tracking-wordmark: 0.08em;
+  --tracking-eyebrow: 0.12em;
+
+  /* ==========================================================================
+   * Shape — radii. No shadow tokens; editorial-flat aesthetic is a deliberate
+   * minimal (see DESIGN.md Elevation & Depth).
+   * ========================================================================== */
+  --radius-card: 0.75rem;    /* 12px — soft-cornered dark-card containers */
+  --radius-pill: 9999px;     /* ThemeToggle, contact-form submit, tag pills */
+  --radius-hairline: 2px;    /* focus ring, small chrome */
+
+  /* ==========================================================================
+   * Layout. Max content width is the brand's load-bearing container; section
+   * padding convention is py-16 md:py-20 in Tailwind utilities (4→5rem) and
+   * is not overridden here. --breakpoint-reading creates a `reading:` variant
+   * in Tailwind for the /writing TOC sidebar, chosen above the content-max
+   * (66rem / 1056px) to avoid the 1024–1056px dead zone.
+   * ========================================================================== */
+  --breakpoint-reading: 1080px;
+
+  /* ==========================================================================
+   * Motion. Durations + easing curves. All chrome animations gate these
+   * behind `@media (prefers-reduced-motion: no-preference)` at the usage
+   * site — tokens themselves carry no reduced-motion logic.
+   * ========================================================================== */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+ * Non-utility tokens. These are consumed via var() directly; Tailwind does
+ * not generate utilities for them.
+ * ========================================================================== */
+
+:root {
+  /* Content container max-width. Consumed as max-w-[var(--max-content-width)]
+   * or via custom CSS. Matches cbkdi-website's current 66rem convention. */
+  --max-content-width: 66rem;
+
+  /* z-index scale. Kept coordinated so Header / TOC sidebar / ThemeToggle /
+   * modal / toast don't collide. ThemeToggle lives inside the Header, so it
+   * doesn't need its own stacking context — noted for future surfaces. */
+  --z-header: 50;
+  --z-toc-sidebar: 40;
+  --z-modal: 100;
+  --z-toast: 110;
+
+  /* Focus ring color. Decoupled from the accent token so a palette shift
+   * (e.g., warm-black adjustment) can't silently change focus-ring contrast.
+   * Default = light-mode value; .dark override below flips to the lighter
+   * purple that reads against the dark surface. */
+  --color-focus-ring: var(--color-brand-700);
+}
+
+html.dark {
+  --color-focus-ring: var(--color-brand-400);
+}
+
+/* ==========================================================================
+ * Color-scheme hints. Matches cbkdi-website/src/styles/global.css — kept
+ * here so any surface vendoring tokens.css gets the same default behavior.
+ * ========================================================================== */
+
+html {
+  color-scheme: light dark;
+}
+
+html.dark {
+  color-scheme: dark;
+}
