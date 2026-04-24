@@ -1,0 +1,25 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);}
+  .wrap{padding:20px 24px;box-sizing:border-box;width:100%;min-height:100%;}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .swatch{width:88px;height:56px;border-radius:6px;border:1px solid var(--color-rule);display:flex;align-items:flex-end;padding:6px;font-family:var(--font-mono);font-size:10px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);}
+  .swatch.lt{color:#111;text-shadow:none;}
+  .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-lt);margin-bottom:10px;}
+  .mini{font-family:var(--font-mono);font-size:11px;color:var(--color-text-mid);}
+  .typespec{display:flex;align-items:baseline;gap:14px;}
+  .typespec .meta{font-family:var(--font-mono);font-size:10px;color:var(--color-text-lt);letter-spacing:.08em;text-transform:uppercase;flex:none;}
+</style></head><body><div class="wrap">
+    <div class="lbl">Dark-card container · soft corner · solid surface · no shadow</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0;">
+      <div style="background:#f2f1f4;border-radius:12px;padding:14px 16px;">
+        <div class="eyebrow" style="margin-bottom:6px;">Light</div>
+        <div style="font-family:var(--font-display);font-size:16px;line-height:1.2;">A decision held for a room.</div>
+      </div>
+      <div style="background:#1f1d24;color:#e5e5e5;border-radius:12px;padding:14px 16px;">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#808080;margin-bottom:6px;">Dark</div>
+        <div style="font-family:var(--font-display);font-size:16px;line-height:1.2;">A decision held for a room.</div>
+      </div>
+    </div>
+    <div class="mini">24px padding default · no border · 12px radius</div></div></body></html>

@@ -487,7 +487,7 @@ Content extraction (`src/data/`) is deliberately **not** on this graph — seque
 
 ---
 
-- [ ] U6. **Select display serif, reading serif (for /writing), and monospace faces through real-copy comps**
+- [x] U6. **Select display serif, reading serif (for /writing), and monospace faces through real-copy comps**
 
 **Goal:** Resolve the three-face system's actual face choices via iteration on real CBKDI copy, informed by the R13a rubric. Produces a final `--font-display`, `--font-body` (plus optional reading-serif override for /writing), and `--font-mono` commitment.
 
@@ -530,7 +530,7 @@ Content extraction (`src/data/`) is deliberately **not** on this graph — seque
 
 ---
 
-- [ ] U7. **Refine the wordmark (dot treatment + display-face integration)**
+- [x] U7. **Refine the wordmark (dot treatment + display-face integration)**
 
 **Goal:** Finalize the `• CBKDI` wordmark — keep the leading purple dot, reposition, retire, or replace with a structural mark. Decision coordinates with the chosen display face from U6.
 
@@ -681,7 +681,7 @@ Content extraction (`src/data/`) is deliberately **not** on this graph — seque
 
 ---
 
-- [ ] U10. **Document `/writing` layout vocabulary in DESIGN.md (no Astro scaffolding in v1)**
+- [x] U10. **Document `/writing` layout vocabulary in DESIGN.md (no Astro scaffolding in v1)**
 
 **Goal:** Revised 2026-04-23 post-review: rather than building `WritingLayout`, `writing/index.astro`, `[slug].astro`, and `content/config.ts` ahead of any publishing cadence, U10 specifies the full `/writing` vocabulary in `cbkdi/design-system/DESIGN.md`. Astro files are created alongside the first real post — the effort that has real content to shape the layout against. Eliminates the polished-empty-orphan risk at source.
 
