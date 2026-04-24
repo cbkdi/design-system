@@ -1,19 +1,17 @@
 {
-  "name": "design-monorepo",
+  "name": "cbkdi-design-system",
+  "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "description": "CBKDI (CBK Development Intelligence) brand system. Authoritative Tailwind v4 tokens and DESIGN.md consumed by Claude Design and cbkdi.com.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cbkdi/design-system.git"
+  },
   "scripts": {
-    "build": "turbo build",
-    "test": "turbo test",
-    "lint": "turbo lint",
-    "cli": "bun run packages/cli/src/index.ts"
+    "lint": "design.md lint DESIGN.md"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "bun-types": "^1.3.12",
-    "turbo": "latest",
-    "typescript": "latest"
+    "@google/design.md": "^0.1.1"
   }
 }
