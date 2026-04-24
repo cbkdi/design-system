@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBKDI — Face Selection Comps (Hero / About / Writing)</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  :root {
+    --gutter: clamp(1.25rem, 2vw, 3rem);
+  }
+
+  html, body { margin: 0; padding: 0; }
+
+  /* Comp stage — sit each comp in a labeled frame so we can show light + dark
+   * side-by-side without them bleeding into each other. */
+  .stage {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    background: #e8e6ea;
+  }
+  @media (min-width: 1200px) {
+    .stage.pair { grid-template-columns: 1fr 1fr; }
+  }
+  .frame {
+    position: relative;
+    min-height: 100vh;
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: clamp(3rem, 6vw, 5rem) var(--gutter);
+    overflow: hidden;
+  }
+  .frame-label {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-lt);
+    z-index: 10;
+  }
+  .container {
+    max-width: var(--max-content-width);
+    margin-inline: auto;
+  }
+
+  /* Site header chrome — consistent across all comps */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 4rem;
+  }
+  .site-nav {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--color-text-mid);
+  }
+  .site-nav a { color: inherit; }
+  .site-nav a:hover { color: var(--color-text); text-decoration: none; }
+  .site-nav a[aria-current="page"] {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero-comp {
+    padding-top: 2rem;
+  }
+  .hero-eyebrow {
+    margin-bottom: 2.5rem;
+  }
+  .hero-headline {
+    margin: 0 0 2.25rem;
+    max-width: 18ch;
+    line-height: 1.0;
+  }
+  .hero-subhead {
+    font-family: var(--font-body);
+    font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.25rem);
+    line-height: 1.55;
+    color: var(--color-text-mid);
+    max-width: 52ch;
+    margin: 0 0 3rem;
+    font-weight: 400;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-rule);
+    margin-top: 4rem;
+  }
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 12rem;
+  }
+  .hero-meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-lt);
+  }
+  .hero-meta-value {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    line-height: 1.5;
+  }
+  .hero-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 6rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-rule);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-lt);
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-comp .section-head { margin: 0 0 2rem; max-width: 24ch; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 820px) {
+    .about-grid { grid-template-columns: 14rem 1fr; gap: 4rem; }
+  }
+  .about-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .about-sidebar-block { display: flex; flex-direction: column; gap: 0.375rem; }
+  .about-body p {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin: 0 0 1.25rem;
+    max-width: 58ch;
+  }
+  .about-body p:first-child { font-size: 1.1875rem; line-height: 1.55; color: var(--color-text); }
+  .about-body p:last-child { margin-bottom: 0; }
+  .about-rule {
+    margin: 4rem 0 2.5rem;
+  }
+
+  /* ---------- WRITING ---------- */
+  .writing-comp { padding-top: 2rem; }
+  .writing-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  @media (min-width: 1080px) {
+    .writing-layout {
+      grid-template-columns: 12rem 1fr;
+      gap: 4rem;
+    }
+  }
+  .writing-toc {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+  }
+  .writing-toc-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-lt);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-rule);
+  }
+  .writing-toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+  .writing-toc a {
+    color: var(--color-text-mid);
+    text-decoration: none;
+    font-weight: 400;
+    display: flex;
+    gap: 0.75em;
+    line-height: 1.35;
+  }
+  .writing-toc a::before {
+    content: attr(data-n);
+    font-family: var(--font-mono);
+    color: var(--color-text-lt);
+    font-size: 0.6875rem;
+    flex: none;
+    padding-top: 0.125em;
+  }
+  .writing-toc a[aria-current="true"] {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+  .writing-breadcrumb {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-lt);
+    margin-bottom: 2rem;
+  }
+  .writing-breadcrumb a { color: var(--color-text-lt); }
+  .writing-breadcrumb a:hover { color: var(--color-text-mid); text-decoration: none; }
+  .writing-breadcrumb .sep { margin: 0 0.6em; color: var(--color-rule); }
+
+  .writing-article {
+    max-width: var(--reading-measure);
+  }
+  .writing-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.6rem + 2vw, 3.25rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+    color: var(--color-text);
+    margin: 0 0 1rem;
+    text-wrap: balance;
+  }
+  .writing-deck {
+    font-family: var(--font-reading);
+    font-style: italic;
+    font-size: 1.1875rem;
+    line-height: 1.55;
+    color: var(--color-text-mid);
+    margin: 0 0 2.5rem;
+    max-width: 55ch;
+  }
+  .writing-meta {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule);
+    margin-bottom: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-lt);
+  }
+  .writing-meta .sep {
+    color: var(--color-rule);
+  }
+
+  .writing-article h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-reading-h2);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+    color: var(--color-text);
+    margin: 2.5rem 0 1rem;
+  }
+  .writing-article h2 .anchor {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text-lt);
+    text-transform: uppercase;
+    vertical-align: 0.45em;
+    margin-right: 0.75em;
+  }
+  .writing-article p {
+    font-family: var(--font-reading);
+    font-size: var(--text-reading-base);
+    line-height: var(--leading-reading);
+    color: var(--color-text);
+    margin: 0 0 1.25em;
+    font-feature-settings: "kern", "liga", "onum";
+  }
+  .writing-article p a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  }
+  .writing-article p a:hover { text-decoration-color: var(--color-primary); }
+  .writing-article blockquote {
+    font-family: var(--font-reading);
+    font-size: var(--text-reading-base);
+    line-height: var(--leading-reading);
+    font-style: italic;
+    color: var(--color-text-mid);
+    border-left: 2px solid var(--color-primary);
+    padding-left: 1.25rem;
+    margin: 2rem 0 2rem;
+  }
+  .writing-footnote {
+    font-family: var(--font-reading);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-mid);
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-rule);
+    margin-top: 3rem;
+  }
+  .writing-footnote .fn-mark {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-lt);
+    margin-right: 0.5em;
+    letter-spacing: 0.04em;
+  }
+
+  .footer-stamp {
+    margin-top: 5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-lt);
+  }
+
+  /* Comp tab bar — separates the three comps */
+  .comp-header {
+    background: #1a1a1a;
+    color: #aaa;
+    padding: 1rem clamp(1.25rem, 3vw, 3rem);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .comp-header strong { color: #fff; font-weight: 500; }
+
+  /* Print / PDF niceties */
+  @media print {
+    .comp-header { break-before: page; }
+    .stage.pair { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====================================================================== -->
+<!-- HERO COMP                                                                -->
+<!-- ====================================================================== -->
+<div class="comp-header">
+  <span><strong>Comp 01</strong> &middot; Hero</span>
+  <span>Instrument Serif / Inter / IBM Plex Mono &middot; Light + Dark</span>
+</div>
+<div class="stage pair">
+
+  <!-- Hero — light -->
+  <div class="frame">
+    <span class="frame-label">Light</span>
+    <div class="container hero-comp">
+      <header class="site-header">
+        <span class="wordmark" aria-label="CBKDI">CBKDI</span>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#writing" aria-current="page">Writing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <div class="eyebrow hero-eyebrow">Conor Keilty &nbsp;/&nbsp; CBK Development Intelligence</div>
+
+      <h1 class="hero hero-headline">Senior judgment. Durable systems.</h1>
+
+      <p class="hero-subhead">
+        I work on the systems, processes, and products that operators actually
+        run on — drawing on fifteen years of sponsor-side real-estate
+        development. The output is usually a document, a tool, or a meeting
+        that holds up in the room the next week.
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Practice</span>
+          <span class="hero-meta-value">Systems, process, and product design for operators.</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Lens</span>
+          <span class="hero-meta-value">Sponsor-side real-estate development.</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Shape</span>
+          <span class="hero-meta-value">One person. Retainer or fixed scope.</span>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <span>§ Intro</span>
+        <span>Rev 2026.04</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero — dark -->
+  <div class="frame dark">
+    <span class="frame-label">Dark</span>
+    <div class="container hero-comp">
+      <header class="site-header">
+        <span class="wordmark" aria-label="CBKDI">CBKDI</span>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#writing" aria-current="page">Writing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <div class="eyebrow hero-eyebrow">Conor Keilty &nbsp;/&nbsp; CBK Development Intelligence</div>
+
+      <h1 class="hero hero-headline">Senior judgment. Durable systems.</h1>
+
+      <p class="hero-subhead">
+        I work on the systems, processes, and products that operators actually
+        run on — drawing on fifteen years of sponsor-side real-estate
+        development. The output is usually a document, a tool, or a meeting
+        that holds up in the room the next week.
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Practice</span>
+          <span class="hero-meta-value">Systems, process, and product design for operators.</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Lens</span>
+          <span class="hero-meta-value">Sponsor-side real-estate development.</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Shape</span>
+          <span class="hero-meta-value">One person. Retainer or fixed scope.</span>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <span>§ Intro</span>
+        <span>Rev 2026.04</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ====================================================================== -->
+<!-- ABOUT COMP                                                               -->
+<!-- ====================================================================== -->
+<div class="comp-header">
+  <span><strong>Comp 02</strong> &middot; About block</span>
+  <span>Conor's bio &middot; Light + Dark</span>
+</div>
+<div class="stage pair">
+
+  <!-- About — light -->
+  <div class="frame">
+    <span class="frame-label">Light</span>
+    <div class="container">
+      <header class="site-header">
+        <span class="wordmark" aria-label="CBKDI">CBKDI</span>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="#about" aria-current="page">About</a>
+          <a href="#writing">Writing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <div class="about-comp">
+        <div class="eyebrow" style="margin-bottom:2rem;">§02 &nbsp;About</div>
+        <h2 class="section-head">The short version, in first person.</h2>
+
+        <div class="about-grid">
+          <aside class="about-sidebar">
+            <div class="about-sidebar-block">
+              <span class="eyebrow">Based</span>
+              <span class="body-md">Remote. Mountain West, USA.</span>
+            </div>
+            <div class="about-sidebar-block">
+              <span class="eyebrow">License</span>
+              <span class="body-md">Registered Architect, USA.</span>
+            </div>
+            <div class="about-sidebar-block">
+              <span class="eyebrow">Years in</span>
+              <span class="body-md">15+ across field, design, and sponsorship.</span>
+            </div>
+            <div class="about-sidebar-block">
+              <span class="eyebrow">Prior</span>
+              <span class="body-md">VP, development at a mid-market sponsor. Before that: design-side and field-side at a national GC.</span>
+            </div>
+          </aside>
+
+          <div class="about-body">
+            <p>
+              I'm Conor Keilty. CBKDI is my consulting practice. I spent
+              fifteen-plus years on the sponsor side of real-estate
+              development — field construction first, then architecture,
+              then deal underwriting and pre-development — before I
+              realized that most of the problems operators actually hire
+              me for are not deal problems. They are systems problems.
+            </p>
+            <p>
+              The spreadsheet says one thing. The field says another. The
+              partner deck says a third. Somebody has to sit in the middle
+              and decide what is real, and then put the decision into a
+              shape the next person can use. That is the work.
+            </p>
+            <p>
+              I take on a small number of retainers and fixed-scope
+              engagements a year. Recent work has been a capital-stack
+              model that stress-tests on a slider, a QuickBooks-to-CCTD
+              automation for a commercial GC, and an investor-facing
+              scenario explorer for a community-development project in
+              Colorado.
+            </p>
+            <p>
+              If that sounds like the shape of your problem, the contact
+              form is below.
+            </p>
+          </div>
+        </div>
+
+        <hr class="about-rule">
+
+        <div class="revision-stamp">Updated 2026-04-23 &nbsp;·&nbsp; § About</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About — dark -->
+  <div class="frame dark">
+    <span class="frame-label">Dark</span>
+    <div class="container">
+      <header class="site-header">
+        <span class="wordmark" aria-label="CBKDI">CBKDI</span>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="#about" aria-current="page">About</a>
+          <a href="#writing">Writing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <div class="about-comp">
+        <div class="eyebrow" style="margin-bottom:2rem;">§02 &nbsp;About</div>
+        <h2 class="section-head">The short version, in first person.</h2>
+
+        <div class="about-grid">
+          <aside class="about-sidebar">
+            <div class="about-sidebar-block">
+              <span class="eyebrow">Based</span>
+              <span class="body-md">Remote. Mountain West, USA.</span>
+            </div>
+            <div class="about-sidebar-block">
+              <span class="eyebrow">License</span>
+              <span class="body-md">Registered Architect, USA.</span>
+            </div>
+            <div class="about-sidebar-block">
+              <span class="eyebrow">Years in</span>
+              <span class="body-md">15+ across field, design, and sponsorship.</span>
+            </div>
+            <div class="about-sidebar-block">
+              <span class="eyebrow">Prior</span>
+              <span class="body-md">VP, development at a mid-market sponsor. Before that: design-side and field-side at a national GC.</span>
+            </div>
+          </aside>
+
+          <div class="about-body">
+            <p>
+              I'm Conor Keilty. CBKDI is my consulting practice. I spent
+              fifteen-plus years on the sponsor side of real-estate
+              development — field construction first, then architecture,
+              then deal underwriting and pre-development — before I
+              realized that most of the problems operators actually hire
+              me for are not deal problems. They are systems problems.
+            </p>
+            <p>
+              The spreadsheet says one thing. The field says another. The
+              partner deck says a third. Somebody has to sit in the middle
+              and decide what is real, and then put the decision into a
+              shape the next person can use. That is the work.
+            </p>
+            <p>
+              I take on a small number of retainers and fixed-scope
+              engagements a year. Recent work has been a capital-stack
+              model that stress-tests on a slider, a QuickBooks-to-CCTD
+              automation for a commercial GC, and an investor-facing
+              scenario explorer for a community-development project in
+              Colorado.
+            </p>
+            <p>
+              If that sounds like the shape of your problem, the contact
+              form is below.
+            </p>
+          </div>
+        </div>
+
+        <hr class="about-rule">
+
+        <div class="revision-stamp">Updated 2026-04-23 &nbsp;·&nbsp; § About</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ====================================================================== -->
+<!-- WRITING COMP                                                             -->
+<!-- ====================================================================== -->
+<div class="comp-header">
+  <span><strong>Comp 03</strong> &middot; /writing long-form post</span>
+  <span>Source Serif 4 reading body &middot; Light + Dark</span>
+</div>
+<div class="stage pair">
+
+  <!-- Writing — light -->
+  <div class="frame">
+    <span class="frame-label">Light</span>
+    <div class="container writing-comp">
+      <header class="site-header">
+        <span class="wordmark" aria-label="CBKDI">CBKDI</span>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#writing" aria-current="page">Writing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <nav class="writing-breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">/</span>
+        <a href="/writing">Writing</a>
+        <span class="sep">/</span>
+        <span aria-current="page">The Spreadsheet Is Not The Project</span>
+      </nav>
+
+      <div class="writing-layout">
+        <aside class="writing-toc" aria-label="Table of contents">
+          <div class="writing-toc-label">Contents</div>
+          <ol>
+            <li><a href="#s1" data-n="01">The room the model never sees</a></li>
+            <li><a href="#s2" data-n="02" aria-current="true">What the field knows first</a></li>
+            <li><a href="#s3" data-n="03">Where the decision actually lives</a></li>
+            <li><a href="#s4" data-n="04">A working rule, for now</a></li>
+          </ol>
+        </aside>
+
+        <article class="writing-article">
+          <h1 class="writing-title">The spreadsheet is not the project.</h1>
+          <p class="writing-deck">
+            Every sponsor I have worked with has a moment — usually around
+            month four — when the model and the field stop agreeing. The
+            job, from then on, is to figure out which one is lying.
+          </p>
+
+          <div class="writing-meta">
+            <span>Essay</span>
+            <span class="sep">·</span>
+            <span>2026-03-14</span>
+            <span class="sep">·</span>
+            <span>8 min read</span>
+            <span class="sep">·</span>
+            <span>Rev 2026.04</span>
+          </div>
+
+          <p>
+            The first sponsor I worked for had a spreadsheet that was, I am
+            not exaggerating, the company. Every deal lived in it. Every
+            draw, every assumption, every decision that anyone had ever
+            walked into a partner meeting and defended. When the founder
+            left the office, the file came with him on a thumb drive. When
+            the office flooded, the thumb drive came out of his pocket dry.
+          </p>
+
+          <p>
+            I inherited that spreadsheet the week I was promoted into
+            pre-development. Within ninety days it had diverged from the
+            field in ways I did not yet have the vocabulary for. A steel
+            package we had modeled at one number had come back at a
+            different one. A zoning variance we had assumed would land in
+            two months had landed in six. The model, beautifully
+            consistent internally, no longer described a project that
+            existed anywhere outside of it.
+          </p>
+
+          <h2 id="s2">
+            <span class="anchor">§02</span>What the field knows first
+          </h2>
+
+          <p>
+            Here is the thing that took me a decade to name. The field
+            knows before the model does. The superintendent who has been
+            running this trade for twenty years can feel a crew slowing
+            down in week two; the model will not notice until the draw
+            request comes in late in month three. By the time the
+            spreadsheet can tell you the project is in trouble, the
+            project has been in trouble for sixty days.
+          </p>
+
+          <blockquote>
+            A model is a snapshot of what you were willing to believe the
+            day you built it. The project is whatever is actually happening.
+            These are not the same thing and they were never going to be.
+          </blockquote>
+
+          <p>
+            This is not a failure of modeling. It is a description of what
+            models are. The spreadsheet's job is to hold a decision long
+            enough for a room of people to agree on it. Once the decision
+            is made, the model's usefulness starts decaying on a clock
+            that nobody in the room is watching. <a href="#fn1">¹</a>
+          </p>
+
+          <p class="writing-footnote" id="fn1">
+            <span class="fn-mark">FN 01</span>
+            The "clock nobody is watching" framing is borrowed from a
+            conversation with a former construction partner who put it
+            better than I ever will: "the model is fresh for about as long
+            as a gallon of milk."
+          </p>
+        </article>
+      </div>
+
+      <div class="footer-stamp">
+        <span>CBKDI &nbsp;·&nbsp; § Writing</span>
+        <span>Updated 2026-04-23</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Writing — dark -->
+  <div class="frame dark">
+    <span class="frame-label">Dark</span>
+    <div class="container writing-comp">
+      <header class="site-header">
+        <span class="wordmark" aria-label="CBKDI">CBKDI</span>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#writing" aria-current="page">Writing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <nav class="writing-breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">/</span>
+        <a href="/writing">Writing</a>
+        <span class="sep">/</span>
+        <span aria-current="page">The Spreadsheet Is Not The Project</span>
+      </nav>
+
+      <div class="writing-layout">
+        <aside class="writing-toc" aria-label="Table of contents">
+          <div class="writing-toc-label">Contents</div>
+          <ol>
+            <li><a href="#s1" data-n="01">The room the model never sees</a></li>
+            <li><a href="#s2" data-n="02" aria-current="true">What the field knows first</a></li>
+            <li><a href="#s3" data-n="03">Where the decision actually lives</a></li>
+            <li><a href="#s4" data-n="04">A working rule, for now</a></li>
+          </ol>
+        </aside>
+
+        <article class="writing-article">
+          <h1 class="writing-title">The spreadsheet is not the project.</h1>
+          <p class="writing-deck">
+            Every sponsor I have worked with has a moment — usually around
+            month four — when the model and the field stop agreeing. The
+            job, from then on, is to figure out which one is lying.
+          </p>
+
+          <div class="writing-meta">
+            <span>Essay</span>
+            <span class="sep">·</span>
+            <span>2026-03-14</span>
+            <span class="sep">·</span>
+            <span>8 min read</span>
+            <span class="sep">·</span>
+            <span>Rev 2026.04</span>
+          </div>
+
+          <p>
+            The first sponsor I worked for had a spreadsheet that was, I am
+            not exaggerating, the company. Every deal lived in it. Every
+            draw, every assumption, every decision that anyone had ever
+            walked into a partner meeting and defended. When the founder
+            left the office, the file came with him on a thumb drive. When
+            the office flooded, the thumb drive came out of his pocket dry.
+          </p>
+
+          <p>
+            I inherited that spreadsheet the week I was promoted into
+            pre-development. Within ninety days it had diverged from the
+            field in ways I did not yet have the vocabulary for. A steel
+            package we had modeled at one number had come back at a
+            different one. A zoning variance we had assumed would land in
+            two months had landed in six. The model, beautifully
+            consistent internally, no longer described a project that
+            existed anywhere outside of it.
+          </p>
+
+          <h2 id="s2">
+            <span class="anchor">§02</span>What the field knows first
+          </h2>
+
+          <p>
+            Here is the thing that took me a decade to name. The field
+            knows before the model does. The superintendent who has been
+            running this trade for twenty years can feel a crew slowing
+            down in week two; the model will not notice until the draw
+            request comes in late in month three. By the time the
+            spreadsheet can tell you the project is in trouble, the
+            project has been in trouble for sixty days.
+          </p>
+
+          <blockquote>
+            A model is a snapshot of what you were willing to believe the
+            day you built it. The project is whatever is actually happening.
+            These are not the same thing and they were never going to be.
+          </blockquote>
+
+          <p>
+            This is not a failure of modeling. It is a description of what
+            models are. The spreadsheet's job is to hold a decision long
+            enough for a room of people to agree on it. Once the decision
+            is made, the model's usefulness starts decaying on a clock
+            that nobody in the room is watching. <a href="#fn1">¹</a>
+          </p>
+
+          <p class="writing-footnote" id="fn1">
+            <span class="fn-mark">FN 01</span>
+            The "clock nobody is watching" framing is borrowed from a
+            conversation with a former construction partner who put it
+            better than I ever will: "the model is fresh for about as long
+            as a gallon of milk."
+          </p>
+        </article>
+      </div>
+
+      <div class="footer-stamp">
+        <span>CBKDI &nbsp;·&nbsp; § Writing</span>
+        <span>Updated 2026-04-23</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

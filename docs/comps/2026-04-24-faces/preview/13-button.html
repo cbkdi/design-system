@@ -1,0 +1,20 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);}
+  .wrap{padding:20px 24px;box-sizing:border-box;width:100%;min-height:100%;}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .swatch{width:88px;height:56px;border-radius:6px;border:1px solid var(--color-rule);display:flex;align-items:flex-end;padding:6px;font-family:var(--font-mono);font-size:10px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);}
+  .swatch.lt{color:#111;text-shadow:none;}
+  .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-lt);margin-bottom:10px;}
+  .mini{font-family:var(--font-mono);font-size:11px;color:var(--color-text-mid);}
+  .typespec{display:flex;align-items:baseline;gap:14px;}
+  .typespec .meta{font-family:var(--font-mono);font-size:10px;color:var(--color-text-lt);letter-spacing:.08em;text-transform:uppercase;flex:none;}
+</style></head><body><div class="wrap">
+    <div class="lbl">Primary button · pill radius · default / hover / focus</div>
+    <div style="display:flex;gap:14px;align-items:center;margin:8px 0 12px;">
+      <button style="padding:10px 20px;background:#4f3d78;color:#fafafa;border:0;border-radius:9999px;font-family:var(--font-body);font-size:14px;font-weight:500;cursor:pointer;">Get in touch</button>
+      <button style="padding:10px 20px;background:#3d2e62;color:#fafafa;border:0;border-radius:9999px;font-family:var(--font-body);font-size:14px;font-weight:500;cursor:pointer;">Get in touch</button>
+      <button style="padding:10px 20px;background:#4f3d78;color:#fafafa;border:0;border-radius:9999px;font-family:var(--font-body);font-size:14px;font-weight:500;cursor:pointer;outline:2px solid #4f3d78;outline-offset:3px;">Get in touch</button>
+    </div>
+    <div class="mini">Default / hover (primary-hover) / focus-visible (2px ring · 3px offset · hairline radius)</div></div></body></html>

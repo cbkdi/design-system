@@ -1,0 +1,50 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);}
+  .wrap{padding:20px 24px;box-sizing:border-box;width:100%;min-height:100%;}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .swatch{width:88px;height:56px;border-radius:6px;border:1px solid var(--color-rule);display:flex;align-items:flex-end;padding:6px;font-family:var(--font-mono);font-size:10px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);}
+  .swatch.lt{color:#111;text-shadow:none;}
+  .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-lt);margin-bottom:10px;}
+  .mini{font-family:var(--font-mono);font-size:11px;color:var(--color-text-mid);}
+  .typespec{display:flex;align-items:baseline;gap:14px;}
+  .typespec .meta{font-family:var(--font-mono);font-size:10px;color:var(--color-text-lt);letter-spacing:.08em;text-transform:uppercase;flex:none;}
+</style></head><body><div class="wrap">
+    <div class="lbl">Spacing scale · 4 / 8 / 16 / 24 / 32 / 48 / 64 / 80</div>
+    <div style="display:flex;align-items:flex-end;gap:6px;margin:8px 0 10px;">
+      
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:22px;height:4px;background:#4f3d78;"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-lt);">4</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:22px;height:8px;background:#4f3d78;"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-lt);">8</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:22px;height:16px;background:#4f3d78;"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-lt);">16</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:22px;height:24px;background:#4f3d78;"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-lt);">24</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:22px;height:32px;background:#4f3d78;"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-lt);">32</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:22px;height:48px;background:#4f3d78;"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-lt);">48</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:22px;height:64px;background:#4f3d78;"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-lt);">64</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:22px;height:80px;background:#4f3d78;"></div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--color-text-lt);">80</div>
+        </div>
+    </div>
+    <div class="mini">Section rhythm is 80px desktop · 64px mobile · max-content 66rem (1056px)</div></div></body></html>

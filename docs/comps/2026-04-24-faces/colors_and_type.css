@@ -1,0 +1,308 @@
+/*
+ * CBKDI Design System — colors_and_type.css
+ *
+ * Flat token file for quick consumption by prototyping tools and Claude Design.
+ * Mirrors the authoritative tokens.css `@theme` block (Tailwind v4), but written
+ * as plain :root custom properties + dark-mode override + semantic element styles
+ * so an HTML file can drop this in and get CBKDI typography + color for free.
+ *
+ * Authoritative source: tokens.css (Tailwind v4 @theme).
+ * Committed faces: Instrument Serif (display), Inter (body UI), Source Serif 4
+ * (reading long-form), IBM Plex Mono (structural chrome).
+ */
+
+/* ==========================================================================
+ * Webfonts — Google Fonts (free, no paid-face approval required).
+ * ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+:root {
+  /* ------------------------------------------------------------------------
+   * Colors — light mode is the default, dark mode overrides via .dark class.
+   * ------------------------------------------------------------------------ */
+
+  /* Brand purple — single-accent scale. Anchored at 700 = #4f3d78. */
+  --color-brand-50: #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-200: #ddd6fe;
+  --color-brand-300: #c4b5fd;
+  --color-brand-400: #a78bdb;
+  --color-brand-500: #8b6fc0;
+  --color-brand-600: #6d4ea3;
+  --color-brand-700: #4f3d78;
+  --color-brand-800: #3d2e62;
+  --color-brand-900: #2e224a;
+  --color-brand-950: #1a1333;
+
+  /* Neutrals. */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f2f1f4;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #dddddd;
+  --color-neutral-400: #aaaaaa;
+  --color-neutral-500: #808080;
+  --color-neutral-600: #6e6e6e;
+  --color-neutral-700: #4a4a4a;
+  --color-neutral-800: #2a2a2a;
+  --color-neutral-900: #1a1a1a;
+  --color-neutral-950: #141218;
+
+  /* Semantic — light mode defaults. */
+  --color-bg: #fafafa;
+  --color-surface: #f2f1f4;
+  --color-text: #1a1a1a;
+  --color-text-mid: #4a4a4a;
+  --color-text-lt: #6e6e6e;
+  --color-rule: #dddddd;
+  --color-primary: #4f3d78;
+  --color-primary-hover: #3d2e62;
+  --color-error: #b4232c;
+  --color-focus-ring: #4f3d78;
+
+  /* ------------------------------------------------------------------------
+   * Typography — face stacks.
+   * ------------------------------------------------------------------------ */
+  --font-display: "Instrument Serif", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-reading: "Source Serif 4", "Source Serif Pro", ui-serif, Georgia, Cambria, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Type scale — UI / marketing surfaces. */
+  --text-eyebrow: 0.75rem;
+  --text-small: clamp(0.8125rem, 0.78rem + 0.16vw, 0.875rem);
+  --text-body: clamp(0.9375rem, 0.88rem + 0.28vw, 1.0625rem);
+  --text-section-head: clamp(1.375rem, 1.2rem + 0.9vw, 1.875rem);
+  --text-hero: clamp(2.25rem, 1.5rem + 3.75vw, 4.5rem);
+
+  /* Reading scale — /writing long-form. */
+  --text-reading-base: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --text-reading-h2: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --text-reading-h3: clamp(1.1875rem, 1.09rem + 0.5vw, 1.4375rem);
+
+  /* Line-heights per face. Instrument Serif is tighter than Georgia; Source
+   * Serif 4 reads best at 1.65–1.7 in an 8–16pt optical range. */
+  --leading-display: 1.05;
+  --leading-body: 1.55;
+  --leading-reading: 1.65;
+  --leading-mono: 1.45;
+
+  /* Letter-spacing. */
+  --tracking-wordmark: 0.14em;  /* mono wordmark — tracks looser than sans did */
+  --tracking-eyebrow: 0.12em;
+  --tracking-display-tight: -0.015em;  /* Instrument Serif already has flair; stay close to 0 */
+
+  /* Radii. */
+  --radius-card: 0.75rem;
+  --radius-pill: 9999px;
+  --radius-hairline: 2px;
+
+  /* Layout. */
+  --max-content-width: 66rem;
+  --reading-measure: 64ch;
+  --breakpoint-reading: 1080px;
+
+  /* Motion. */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark {
+  --color-bg: #141218;
+  --color-surface: #1f1d24;
+  --color-text: #e5e5e5;
+  --color-text-mid: #aaaaaa;
+  --color-text-lt: #808080;
+  --color-rule: #2a2a2a;
+  --color-primary: #a78bdb;
+  --color-primary-hover: #c0a8f0;
+  --color-error: #f07a82;
+  --color-focus-ring: #a78bdb;
+}
+
+html {
+  color-scheme: light dark;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+ * Semantic element styles — these are the "named" typography roles from the
+ * YAML front-matter, now applied as classes (.hero, .section-head, .eyebrow,
+ * .mono-caption, .wordmark, .reading-body, etc.) and as element defaults
+ * where it's safe.
+ * ========================================================================== */
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hero {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 400;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display-tight);
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.section-head {
+  font-family: var(--font-display);
+  font-size: var(--text-section-head);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  color: var(--color-text);
+}
+
+.body-lg {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: var(--leading-body);
+  color: var(--color-text);
+}
+
+.body-md {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: var(--leading-body);
+  color: var(--color-text);
+}
+
+.body-sm {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-mid);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-mid);
+}
+
+.mono-caption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  color: var(--color-text-lt);
+}
+
+.wordmark {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--tracking-wordmark);
+  text-transform: uppercase;
+  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+}
+.wordmark::before {
+  content: "";
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-primary);
+}
+
+.reading-body {
+  font-family: var(--font-reading);
+  font-size: var(--text-reading-base);
+  font-weight: 400;
+  line-height: var(--leading-reading);
+  color: var(--color-text);
+  font-feature-settings: "kern", "liga", "onum";
+}
+
+.reading-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-reading-h2);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  color: var(--color-text);
+}
+
+.reading-h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-reading-h3);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+a:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+a:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-hairline);
+}
+
+/* Hairline rule */
+hr,
+.rule {
+  border: 0;
+  height: 1px;
+  background-color: var(--color-rule);
+  margin: 0;
+}
+
+/* Revision stamp */
+.revision-stamp {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  color: var(--color-text-lt);
+  text-transform: uppercase;
+}
+
+/* Dark-card container */
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+}
+
+/* §-anchor — sparing use on /writing */
+.section-anchor {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--color-text-lt);
+  text-transform: uppercase;
+  vertical-align: 0.3em;
+  margin-right: 0.5em;
+}

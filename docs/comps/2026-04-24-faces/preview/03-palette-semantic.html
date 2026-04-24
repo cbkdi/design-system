@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);}
+  .wrap{padding:20px 24px;box-sizing:border-box;width:100%;min-height:100%;}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .swatch{width:88px;height:56px;border-radius:6px;border:1px solid var(--color-rule);display:flex;align-items:flex-end;padding:6px;font-family:var(--font-mono);font-size:10px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);}
+  .swatch.lt{color:#111;text-shadow:none;}
+  .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-lt);margin-bottom:10px;}
+  .mini{font-family:var(--font-mono);font-size:11px;color:var(--color-text-mid);}
+  .typespec{display:flex;align-items:baseline;gap:14px;}
+  .typespec .meta{font-family:var(--font-mono);font-size:10px;color:var(--color-text-lt);letter-spacing:.08em;text-transform:uppercase;flex:none;}
+</style></head><body><div class="wrap">
+    <div class="lbl">Semantic roles · light mode</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 30px;">
+      <div class="typespec"><span class="meta">bg</span><div style="width:60px;height:30px;background:#fafafa;border:1px solid #ddd;"></div><span class="mini">#fafafa</span></div>
+      <div class="typespec"><span class="meta">surface</span><div style="width:60px;height:30px;background:#f2f1f4;border:1px solid #ddd;"></div><span class="mini">#f2f1f4</span></div>
+      <div class="typespec"><span class="meta">text</span><div style="width:60px;height:30px;background:#1a1a1a;"></div><span class="mini">#1a1a1a</span></div>
+      <div class="typespec"><span class="meta">text-mid</span><div style="width:60px;height:30px;background:#4a4a4a;"></div><span class="mini">#4a4a4a</span></div>
+      <div class="typespec"><span class="meta">text-lt</span><div style="width:60px;height:30px;background:#6e6e6e;"></div><span class="mini">#6e6e6e</span></div>
+      <div class="typespec"><span class="meta">primary</span><div style="width:60px;height:30px;background:#4f3d78;"></div><span class="mini">#4f3d78</span></div>
+      <div class="typespec"><span class="meta">rule</span><div style="width:60px;height:30px;background:#dddddd;"></div><span class="mini">#dddddd</span></div>
+      <div class="typespec"><span class="meta">error</span><div style="width:60px;height:30px;background:#b4232c;"></div><span class="mini">#b4232c</span></div>
+    </div></div></body></html>
