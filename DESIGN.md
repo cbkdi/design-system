@@ -211,7 +211,7 @@ CBKDI is [Conor Keilty](https://cbkdi.com). One person. Licensed architect, fift
 
 ### Claude Design intake blurb
 
-> CBKDI (cbkdi.com) is my consulting practice. I work on systems, process, and product design for operators who need judgment more than they need another spreadsheet, drawing on fifteen years of sponsor-side real-estate development. The visual language is editorial voice inside opinionated structural chrome: first-person copy, restrained purple accent on warm dark, three-face typography (display serif + Inter + mono), soft-cornered dark cards, hairline rules, revision stamps, sparing §-anchors. Set in the system defined by this repository.
+> CBKDI (cbkdi.com) is my consulting practice. I work on systems, process, and product design for operators who need judgment more than they need another spreadsheet, drawing on fifteen years of sponsor-side real-estate development. The visual language is editorial voice inside opinionated structural chrome: first-person copy, restrained purple accent on warm dark, three-face typography (display serif + Inter + mono), soft-cornered dark cards, hairline rules, revision stamps, numbered section eyebrows. Set in the system defined by this repository.
 
 This blurb is authored to be pasted into `claude.ai/design` alongside the repository URL. It is revised in lockstep with the Hero copy; if you change the positioning sentence on cbkdi.com, revise this blurb in the same commit.
 
@@ -241,7 +241,7 @@ The three-face system does most of the brand identification work. All three are 
 
 - **Reading body: Source Serif 4.** `/writing` long-form only. Ships a 500 weight, which is a hard requirement for the TOC active-item state (weight-based, not color-based — the non-color differentiator rule in R8a). Optical-size axis (8–60pt) means the face looks correct at reading-body size without the fake-italic slant some free serifs produce. Replaces the Inter fallback in v0.1. Used for `reading-body`; Instrument Serif still sets h2/h3 on `/writing` so the heading register reads unmistakably CBKDI.
 
-- **Monospace: IBM Plex Mono.** Load-bearing for the "systems" signal. Chosen over JetBrains Mono (reads as IDE), Geist Mono (reads as Vercel), and Berkeley Mono (paid, $75/seat, not meaningfully stronger for our use — short labels and stamps, not body code). Plex Mono is explicitly typeset-for-print, which is the register this brand uses mono in. Used for `eyebrow`, `mono-caption`, `wordmark`, `revision-stamp`, breadcrumb separators, §-anchors, TOC numbers.
+- **Monospace: IBM Plex Mono.** Load-bearing for the "systems" signal. Chosen over JetBrains Mono (reads as IDE), Geist Mono (reads as Vercel), and Berkeley Mono (paid, $75/seat, not meaningfully stronger for our use — short labels and stamps, not body code). Plex Mono is explicitly typeset-for-print, which is the register this brand uses mono in. Used for `eyebrow`, `mono-caption`, `wordmark`, `revision-stamp`, breadcrumb separators, TOC numbers, and the `NN · Label` numbering prefix on section eyebrows.
 
 Rhythm notes:
 
@@ -271,7 +271,7 @@ Dividers are hairline rules in `rule` / `rule-dark`, optionally animated on scro
 **Reading type scale.**
 
 - `h1` (post title): Instrument Serif, `clamp(2rem, 1.6rem + 2vw, 3.25rem)`, `line-height: 1.05`, `letter-spacing: -0.005em`, `text-wrap: balance`.
-- `h2`: `--text-reading-h2` (`1.5rem` → `2rem`), Instrument Serif, `line-height: 1.15`. Spaced `2.5rem` above, `1rem` below. Carries a `§NN` anchor in Plex Mono `0.6875rem` `0.06em` tracking, vertical-aligned `0.45em`, `0.75em` right-margin from the h2 text.
+- `h2`: `--text-reading-h2` (`1.5rem` → `2rem`), Instrument Serif, `line-height: 1.15`. Spaced `2.5rem` above, `1rem` below.
 - `h3`: `--text-reading-h3` (`1.1875rem` → `1.4375rem`), Instrument Serif, `line-height: 1.2`. Spaced `2rem` / `0.75rem`.
 - `deck` (subtitle under the h1): Source Serif 4 italic, `1.1875rem`, `line-height: 1.55`, `color: text-mid`.
 
@@ -302,11 +302,9 @@ The TOC is `position: sticky; top: 2rem; align-self: start;`. Items are an order
 
 **Revision stamp.** On every `/writing` post. Placed in a `writing-meta` rule-bordered strip immediately after the `deck` and immediately before the first body paragraph. Plex Mono `0.6875rem`, `0.08em` tracking, uppercase, `text-lt`. Contains: kind (`Essay` / `Note` / `Log`), publication date `YYYY-MM-DD`, read-time `N min read`, and revision stamp `Rev YYYY.MM`. Separated by `·` in `rule` color.
 
-A second revision stamp appears at the page foot alongside the section marker (`CBKDI · § Writing` left, `Updated YYYY-MM-DD` right). The head-of-article stamp is load-bearing for reader trust; the foot stamp closes the document.
+A second revision stamp appears at the page foot alongside the section marker (`CBKDI · Writing` left, `Updated YYYY-MM-DD` right). The head-of-article stamp is load-bearing for reader trust; the foot stamp closes the document.
 
 **Footnote typography.** Inline footnote marks are superscript numerals using Source Serif 4's built-in `sups` feature (not `<sup>` + `font-size`). Link color, `0.1em` left padding from the preceding word. Footnote body is Source Serif 4 `0.9375rem`, `line-height: 1.55`, `color: text-mid`, prefixed with a Plex Mono label `FN 01` in `0.75rem`, `0.04em` tracking, `text-lt` color, `0.5em` right-margin from the footnote prose. Footnotes sit at the end of the article, separated by a hairline rule, not inline at page-bottom — long-form `/writing` is for readers who tolerate a scroll, not for print.
-
-**§-anchor rule.** Use on `h2` only, and only when the post has three or more h2 sections. A post with a single h2 gets no §-anchor — the anchor is doing navigational work that a single-h2 post does not need. Never used on h3.
 
 **Blockquote.** Source Serif 4 italic, base reading size, left border `2px solid var(--color-primary)`, `1.25rem` left padding, `2rem` vertical margin. `color: text-mid`. This is the only place the purple accent appears inside an article body — one beat per quote.
 
@@ -317,7 +315,7 @@ A second revision stamp appears at the page foot alongside the section marker (`
 - Surface pair (page bg vs. card surface) — the only "layer" concept in the system.
 - Rule hairlines between sections.
 - Typography scale + weight.
-- Occasional §-anchor labels (sparing).
+- Numbered mono eyebrows on section headers (`NN · Label`).
 
 Shadows and blurs are reserved for flourishes that do not exist in the current system. This is an editorial-flat aesthetic. If a future surface proposes adding elevation, that proposal needs to justify why the existing flat hierarchy fails.
 
@@ -326,9 +324,9 @@ Shadows and blurs are reserved for flourishes that do not exist in the current s
 Soft-cornered containers, hairline rules, tight geometry.
 
 - **Card radius:** `12px` (`rounded.card`). Applied to dark-card containers, the about-block surface, and any future grouped content blocks. Soft enough to read as intentional; not so soft as to drift toward rounded-everything web-app aesthetic.
-- **Pill radius:** `9999px` (`rounded.pill`). Applied to ThemeToggle, primary buttons, chip tags ("In the Room" tags), and any full-round ends.
+- **Pill radius:** `9999px` (`rounded.pill`). Applied to ThemeToggle, primary buttons, and any full-round ends.
 - **Hairline radius:** `2px` (`rounded.hairline`). Applied to focus rings and thin chrome elements.
-- **§-anchors:** small mono labels (e.g., `§02`) sit inline with h2/h3 in long-form. Used sparingly on `/writing` surfaces; do not use on marketing surfaces.
+- **Numbered section eyebrows:** each marketing section carries a mono eyebrow of the form `NN · Label` (e.g., `01 · Work`, `02 · About`). The numbering is the system's way of saying "this is a document with an outline" without a full ToC.
 
 ### 02ui moves borrowed
 
@@ -340,7 +338,7 @@ Enumerated here per requirement R5a of the origin brainstorm. CBKDI borrows thes
 4. **Uppercase + tracked mono labels** for eyebrows and chrome callouts.
 5. **Breadcrumb / TOC / revision-stamp chrome** that makes the page feel like it has a known location in a larger system.
 6. **Specific type-contrast register:** display serif sets an editorial tone, mono sets a systems tone, body stays quiet between them.
-7. **Sparing §-anchor usage** — every time you see one, it's doing work.
+7. **Numbered section eyebrows** — each section opens with `NN · Label` in tracked mono, so the page reads as an outlined document, not a poster.
 
 CBKDI does not borrow 02ui's pixel art, retro-arcade illustrations, 8-bit-influenced spacing rhythm, or CRT scanline treatment. The translation from 02ui to CBKDI strips everything that reads as costume and keeps what reads as structure.
 
@@ -350,7 +348,7 @@ CBKDI does not borrow 02ui's pixel art, retro-arcade illustrations, 8-bit-influe
 
 `• CBKDI` — typographic only, no pictorial mark. **IBM Plex Mono Medium (500), uppercase, tracked `+0.14em`.** Leading purple dot (`0.4em`, `rounded.pill`, `colors.primary` on light / `colors.primary-dark` on dark), `aria-hidden="true"` on the dot.
 
-**Rationale for the mono wordmark (committed 2026-04-24, U7):** Against Instrument Serif, a sans-serif wordmark read as visually unrelated — the display face and the wordmark had nothing in common. Moving the wordmark to Plex Mono puts it in the same family as the eyebrow labels, revision stamps, breadcrumbs, TOC numbers, and §-anchors, so every piece of structural chrome on the page shares one face. The wordmark now reads as *the first chrome element*, not as a separate logotype. The leading purple dot stays — it's the single piece of brand color on first paint and it punctuates the otherwise all-mono line cleanly.
+**Rationale for the mono wordmark (committed 2026-04-24, U7):** Against Instrument Serif, a sans-serif wordmark read as visually unrelated — the display face and the wordmark had nothing in common. Moving the wordmark to Plex Mono puts it in the same family as the eyebrow labels, revision stamps, breadcrumbs, TOC numbers, and the `NN · Label` section numbering, so every piece of structural chrome on the page shares one face. The wordmark now reads as *the first chrome element*, not as a separate logotype. The leading purple dot stays — it's the single piece of brand color on first paint and it punctuates the otherwise all-mono line cleanly.
 
 **Markup:**
 
@@ -417,9 +415,9 @@ Future-surface chrome. `<nav aria-label="breadcrumb">` with `<ol>` > `<li>` > `<
 
 Sidebar `≥1080px`, collapsible drawer below. Active-item state: **`font-weight: 500`** on current item (non-color differentiator, chosen over left-border so it survives mobile / drawer layout without padding-budget adjustment). Active requires that the chosen reading face ships a 500 weight — the selected display/reading face must carry this as a hard requirement.
 
-### SectionAnchor (spec only, ships with `/writing`)
+### SectionEyebrow (marketing surfaces)
 
-`<span>` with `id` and inline `§NN` label in mono, rendered alongside `h2`/`h3`. Used sparingly — if every section has one, none of them do work. Not present on marketing surfaces.
+Mono eyebrow block placed above every marketing section head. Format: `<span class="num">NN</span> · Label · <hairline rule, flex:1> · Secondary`. Plex Mono, `0.6875rem`, `500` weight, `0.12em` tracking, uppercase, `text-lt`. The `NN` carries the accent-purple color (`primary` / `primary-dark`) — the one beat of brand color per section on first paint. The hairline `<span class="rule">` is a `1px` background in `rule` / `rule-dark` that `flex: 1` to fill the horizontal space between the leading label and the trailing secondary. Used on `/` sections `01 · Work`, `02 · About`, `03 · Engagement`, `04 · Contact`.
 
 ### ThemeToggle
 
@@ -456,11 +454,11 @@ Every chrome animation (link underline reveal, card hover, section divider scale
 
 ### Chrome
 
-- **Do** use §-anchors sparingly on `/writing`. Every anchor should do navigational work.
+- **Do** use numbered eyebrows (`NN · Label`) on every marketing section so the page reads as an outlined document.
 - **Do** include the `RevisionStamp` on every page so the site reads as a maintained document, not a static artifact.
 - **Don't** stack multiple chrome elements vertically. Breadcrumb OR TOC header OR revision stamp in a given location, not all three.
 - **Don't** remove the `RevisionStamp` to "clean up" a page. It is load-bearing for the editorial voice.
-- **Do** use the §-anchor rule: h2 only, only when a post has three or more h2 sections. Under that bar, the anchor is decoration, not navigation.
+- **Don't** reintroduce the `§` glyph in rendered copy. A prior version of this spec leaned on `§NN` anchors on `/writing` h2s and `§`-prefixed eyebrows elsewhere; the glyph was retired because, on a document already signalled as an outline by the numbered eyebrows, the `§` was paying for signal the numbering already carried.
 
 ### The R13a rubric: visibly, unmistakably CBKDI
 
