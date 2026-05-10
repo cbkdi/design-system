@@ -124,3 +124,34 @@ Hand this to `ce-plan` to produce an implementation plan for a single PR into `c
 - Specimen comps under `docs/comps/2026-04-24-writing-visuals/` (HTML comp set analogous to the `2026-04-24-faces` comps) showing each treatment in light and dark, mobile and desktop
 
 Post #1 can draft against stubbed treatments in `cbkdi-website` (an internal class or two in `global.css`) without blocking on the full design-system extension. The extension PR can land after the first `/writing` post ships.
+
+## Addendum 2026-05-06: syntax-highlighting in `<pre>` blocks
+
+Surfaced during the second `/writing` post (*The agent that doesn't sleep*, cbkdi-website PR #16). The Rocky article's schema examples were originally tagged ` ```markdown ` to signal content type to the reader, but Shiki's default markdown theme emits a saturated blue for headings, bold markers, and link syntax that clashes hard with the brand-purple accent in the `/writing` chrome (active TOC item, blockquote left border).
+
+The post-level workaround was to drop the language tag (` ```text `), which removes Shiki tokenization entirely and renders all-mono text in `var(--color-text)`. This works for the Rocky post because the schema examples read as content, not code. But it is a workaround, not a system answer. The first post that genuinely benefits from highlighted JSON, YAML, JS, or shell will hit the same clash.
+
+### New requirement: syntax-highlighting palette
+
+Add a fourth pattern to the in-scope list — a token-color treatment for syntax-highlighted code blocks that respects the rubric.
+
+Constraints:
+
+- The single primary-purple accent beat per article is owned by the blockquote left border. Syntax tokens MUST NOT use the primary purple, since that would multiply the accent.
+- All other token colors must avoid hues outside the existing system. The current palette uses brand-purple as the only chromatic accent against neutrals; introducing Shiki's default rainbow (blue, red, green, yellow, magenta) is a rubric violation.
+- Implication: tokens differentiate by **value** (light / mid / dark neutrals) and **weight** (regular / medium / semibold), not by hue. Comments stay at `var(--color-text-lt)`. Strings, identifiers, and operators distinguish via face-weight or value differences within the neutral ramp.
+- Light and dark mode parity required, same as existing chrome.
+
+### Implementation paths to weigh during ce-plan
+
+1. **Configure Shiki with a custom theme** generated from existing tokens — produces a JSON theme file and a CSS variable mapping. Highest fidelity but most work.
+2. **Override Shiki's emitted token colors via CSS** — leaves Shiki's class names in place but reassigns colors to brand neutrals through the existing CSS-variable system. Lower-effort, lower-fidelity.
+3. **Disable Shiki for `/writing` and use unhighlighted `<pre>`** — purest neutral treatment but loses the legibility benefit of token differentiation in long code blocks. Probably wrong for posts with substantial code content.
+
+Default lean: option 2 for the first iteration, with option 1 as the next step if value-only differentiation reads as too flat once we comp it.
+
+### Open questions appended
+
+6. **Token differentiation strategy:** value-only, weight-only, or value-and-weight combined? Comp during implementation against representative `markdown`, `yaml`, `json`, `js`, and `shell` blocks.
+7. **Comment handling:** italic + `text-lt`, or roman + `text-lt`? Italic in IBM Plex Mono reads as deliberate; comp both.
+8. **Existing post:** The Rocky article ships with the post-level workaround (` ```text ` for what would normally be ` ```markdown `). Once this requirement is implemented, the article can be re-tagged in a follow-up commit, or left as-is if the value-only treatment of `markdown` looks indistinguishable from plain text. Decide during implementation.
