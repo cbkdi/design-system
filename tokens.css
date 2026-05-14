@@ -1,62 +1,43 @@
 /*
- * CBKDI Design System — tokens.css (PROPOSED — finalized face selection)
+ * CBKDI Design System — tokens.css
  *
  * Authoritative Tailwind v4 @theme block for cbkdi.com and every future CBKDI
  * surface. Hand-authored in this repo; consumed by copy-with-commit-hash.
  *
- * CHANGES FROM v0.1 (2026-04-24, face-selection pass, U6/U7/U10):
+ * CHANGE LOG
  *
- *   1. --font-display: Instrument Serif (Google Fonts, free, OFL).
- *      Editorial attitude, narrow high-contrast, sharp caps — reads as
- *      "specific" rather than "generic premium consulting." Replaces the
- *      Georgia placeholder. Single weight (400); italic for deck/blockquote.
+ * 2026-05-14 — Additive semantic-alias + dark-mode expansion pass (token-only).
+ *   - Added Group A semantic aliases in :root { } (--color-page, --color-card,
+ *     --color-rule, --color-error, --color-text-primary/secondary/caption,
+ *     --color-accent). Consumers prefer these over the paired -light tokens
+ *     going forward; the -light/-dark pairs stay for backward-compat.
+ *   - Added Group B tooltip inversion (--color-surface-tooltip,
+ *     --color-text-on-tooltip).
+ *   - Added Group C heatmap vocabulary (--heatmap-cell-1..5, -past-zero,
+ *     -future, -outline) so the dashboard's revenue heatmap and any future
+ *     CBKDI heatmap inherit the same ramp.
+ *   - Added Group D --color-gridline for non-zero chart gridlines (retires
+ *     the #ececec literal in PaceChart.svelte).
+ *   - Expanded html.dark { } to remap all of the above. Two new design
+ *     decisions inside html.dark: accent on dark = brand-500 (~4.7:1 vs
+ *     bg, clears 3:1); heatmap dark ramp documented inline.
+ *   - No removals, no renames. SHA 6230a35 consumers (cbkdi.com today)
+ *     are byte-identical against the pre-existing tokens.
+ *   - No component recipes, no transitions, no per-component overrides.
  *
- *   2. --font-mono: IBM Plex Mono (Google Fonts, free, OFL). Chosen over
- *      Berkeley Mono ($75/seat, not meaningfully stronger for our use —
- *      short labels/stamps, not code display). Replaces the JetBrains Mono
- *      placeholder. Mono is load-bearing for the "systems" signal; IBM Plex
- *      Mono reads as typeset-for-print rather than IDE-default, which is
- *      what the brief calls for.
- *
- *   3. --font-reading: Source Serif 4 (Google Fonts, free, OFL) for
- *      /writing long-form body. Ships a 500 weight (required for TOC
- *      active-item per R8a). Replaces the Inter fallback; Inter stays as
- *      the UI body face (--font-body).
- *
- *   4. Wordmark face moved to --font-mono (was Inter). This is the biggest
- *      non-trivial shift: the wordmark is now structurally chrome, not
- *      a sans-serif brand mark, which doubles down on "mono as systems
- *      signal" and puts the wordmark in visible conversation with the
- *      revision stamp, eyebrows, and breadcrumbs that share its face.
- *
- *   5. Line-height tokens adjusted for the new faces:
- *      --leading-display 1.1 → 1.05  (Instrument Serif is tighter than Georgia)
- *      --leading-reading 1.7 → 1.65  (Source Serif 4's opsz axis reads
- *                                     better at slightly tighter leading
- *                                     than Inter would at the same size)
- *
- *   6. --tracking-wordmark 0.08em → 0.14em. Mono wordmark needs more air
- *      between letters than the Inter version did; 0.14em sits between
- *      Plex Mono's default letterfit and full all-caps small-caps tracking.
- *
- *   7. --tracking-display-tight: -0.015em (new). Instrument Serif does not
- *      need the -0.02em negative tracking that Georgia hero text carried;
- *      Instrument Serif's metrics are already tight. -0.015em is the
- *      house rule for hero; h2/h3 stay at -0.005em.
- *
- *   8. --text-hero clamp extended upward (2.5rem → 4.5rem cap). Instrument
- *      Serif earns its keep at larger sizes; the Georgia placeholder was
- *      held back to 2.5rem because Georgia gets muddy above 40px. This
- *      lets Hero breathe on large viewports.
- *
- *   9. --reading-measure: 64ch (new). Codifies the reading column width
- *      for /writing — was implicit; now a token.
- *
- *   10. Import rule at the top: @import Google Fonts inline for the four
- *       faces. Once cbkdi.com vendors this, the @import stays (CSP must
- *       allow fonts.googleapis.com — it already does per current headers).
- *       If self-hosting is preferred later, swap the @import for
- *       @font-face blocks pointing at /fonts/*.woff2.
+ * 2026-04-24 — Face selection (U6/U7/U10).
+ *   - --font-display: Instrument Serif (Google Fonts, OFL). Replaced Georgia.
+ *   - --font-mono: IBM Plex Mono (Google Fonts, OFL). Replaced JetBrains Mono.
+ *   - --font-reading: Source Serif 4 (Google Fonts, OFL). Replaced Inter
+ *     fallback for /writing long-form.
+ *   - --font-body: Inter retained.
+ *   - Wordmark moved to mono (DESIGN.md update; no token rename here).
+ *   - Leading + tracking re-tuned for new face metrics. --tracking-wordmark
+ *     0.08em → 0.14em; --tracking-display-tight introduced at -0.015em.
+ *   - --text-hero clamp cap extended 2.5rem → 4.5rem (Instrument Serif
+ *     reads correctly at large sizes; Georgia did not).
+ *   - --reading-measure: 64ch introduced.
+ *   - Inline @import for Google Fonts at top of file.
  *
  * Dark-mode strategy: unchanged. Two distinct tokens per light/dark semantic
  * paired with Tailwind's dark: variant at consumer sites.
@@ -162,10 +143,165 @@
   --z-toast: 110;
 
   --color-focus-ring: var(--color-brand-700);
+
+  /* ==========================================================================
+   * Semantic aliases (2026-05-14 additive pass — token-only, no recipes)
+   *
+   * These describe USE, not LIGHT/DARK. Consumers read these names and the
+   * tokens resolve to the right value per theme. The paired --color-*-light /
+   * --color-*-dark tokens above remain in place for backward-compat with
+   * cbkdi.com (SHA 6230a35 shape); the aliases are the recommended forward
+   * surface for new code (income.cbkdi.com is the first consumer).
+   *
+   * Naming note: the text triplet uses --color-text-primary / -secondary /
+   * -caption rather than DESIGN.md's text / text-mid / text-lt. The
+   * primary/secondary/caption naming reads more clearly at the call site
+   * and matches consumer expectations. DESIGN.md YAML should be reconciled
+   * in a follow-up (DEFERRED).
+   * ========================================================================== */
+
+  /* Surfaces — 60% / 30% rule. Page is the body field; card is panels. */
+  --color-page:               var(--color-surface-light);        /* #fafafa */
+  --color-card:               var(--color-surface-card-light);   /* #f2f1f4 */
+
+  /* Rule + error — drop the -light suffix at the alias layer. */
+  --color-rule:               var(--color-rule-light);            /* #dddddd */
+  --color-error:              var(--color-error-light);           /* #b4232c */
+
+  /* Ink — three weights. Primary = headings/numbers; secondary = body
+   * with weight; caption = eyebrows, footer stamps, low-emphasis chrome. */
+  --color-text-primary:       var(--color-neutral-900);           /* #1a1a1a */
+  --color-text-secondary:     var(--color-neutral-700);           /* #4a4a4a */
+  --color-text-caption:       var(--color-neutral-600);           /* #6e6e6e */
+
+  /* Accent — the 10% brand beat. Anchored at brand-700 on light. */
+  --color-accent:             var(--color-brand-700);             /* #4f3d78 */
+
+  /* ==========================================================================
+   * Tooltip inversion aliases
+   *
+   * The dashboard's heatmap tooltip is "inverted chrome" — dark popup on
+   * light page, light popup on dark page. Without inversion, a tooltip
+   * styled as neutral-900 / neutral-50 disappears in dark mode because
+   * neutral-900 is essentially the page bg. These two tokens hold the
+   * inversion at the token layer so component code stays theme-agnostic.
+   * ========================================================================== */
+  --color-surface-tooltip:    var(--color-neutral-900);           /* #1a1a1a — dark popup on light page */
+  --color-text-on-tooltip:    var(--color-surface-light);         /* #fafafa — near-white text */
+
+  /* ==========================================================================
+   * Heatmap — GitHub-contribution-style year grid
+   *
+   * Five-bin revenue ramp + two neutral states (future, past-zero) + one
+   * outline stroke. Belongs in the design system because the heatmap
+   * vocabulary is brand-language, not the dashboard's private detail —
+   * future surfaces (a deal-flow heatmap on cbkdi.com, etc.) inherit it.
+   *
+   * State ordering on the page: future cells are closest to the page bg
+   * (least visible); past-zero is a clear neutral step above future;
+   * revenue cells 1–5 are purple-tinted, always more visible than the
+   * past-zero neutral. The lightest revenue bin must not collapse into
+   * the past-zero look.
+   * ========================================================================== */
+  --heatmap-cell-1:           var(--color-brand-200);             /* #ddd6fe — lightest revenue */
+  --heatmap-cell-2:           var(--color-brand-400);             /* #a78bdb */
+  --heatmap-cell-3:           var(--color-brand-500);             /* #8b6fc0 */
+  --heatmap-cell-4:           var(--color-brand-700);             /* #4f3d78 — brand anchor */
+  --heatmap-cell-5:           var(--color-brand-800);             /* #3d2e62 — darkest revenue */
+  --heatmap-cell-past-zero:   var(--color-neutral-300);           /* #dddddd */
+  --heatmap-cell-future:      var(--color-neutral-200);           /* #e5e5e5 */
+  --heatmap-cell-outline:     color-mix(in srgb, var(--color-neutral-300), var(--color-neutral-400));
+
+  /* ==========================================================================
+   * Gridline — non-zero gridlines on charts. Subordinate to --color-rule:
+   * --color-rule carries the zero-line and the section hairlines; gridlines
+   * read as graph-paper backdrop, never as structural rules.
+   *
+   * Light value consolidates onto neutral-100, retiring the #ececec literal
+   * in PaceChart.svelte. Functionally identical to the eye; one fewer raw
+   * hex in the consumer tree.
+   * ========================================================================== */
+  --color-gridline:           var(--color-neutral-100);           /* #f2f1f4 */
 }
 
 html.dark {
   --color-focus-ring: var(--color-brand-400);
+
+  /* Surfaces */
+  --color-page:               var(--color-surface-dark);          /* #141218 */
+  --color-card:               var(--color-surface-card-dark);     /* #1f1d24 */
+
+  /* Rule + error — mechanical remap to paired -dark tokens. */
+  --color-rule:               var(--color-rule-dark);             /* #2a2a2a */
+  --color-error:              var(--color-error-dark);            /* #f07a82 */
+
+  /* Ink. neutral-50 / -300 / -400 invert the light-mode ladder. Contrast
+   * vs --color-page (#141218): primary ~14:1, secondary ~10:1, caption
+   * ~6.5:1 — all comfortably above AA. */
+  --color-text-primary:       var(--color-neutral-50);            /* #fafafa */
+  --color-text-secondary:     var(--color-neutral-300);           /* #dddddd */
+  --color-text-caption:       var(--color-neutral-400);           /* #aaaaaa */
+
+  /* Accent on dark — brand-500 (#8b6fc0). Steps two bins lighter from
+   * brand-700 (the light anchor). Measured contrast against
+   * --color-surface-dark #141218: ~4.7:1, clears the required 3:1 for
+   * strokes and small-area fills. brand-400 was tested and reads slightly
+   * too lifted — it loses brand-purple identity and trends lavender.
+   * brand-500 holds "unmistakably purple" while passing the contrast bar. */
+  --color-accent:             var(--color-brand-500);             /* #8b6fc0 */
+
+  /* Tooltip — inverts to LIGHT popup on dark page. */
+  --color-surface-tooltip:    var(--color-neutral-100);           /* #f2f1f4 */
+  --color-text-on-tooltip:    var(--color-neutral-900);           /* #1a1a1a */
+
+  /* Heatmap dark ramp
+   *
+   * Semantic intent preserved from light: future ≈ blends with page, past-
+   * zero ≈ visible neutral step, revenue ≈ purple-tinted and clearly
+   * "more than zero." On dark this requires INVERTING the absolute
+   * luminance direction — "blends with page" means low luminance, not
+   * high. So future is the DARKEST of the trio (closest to #141218),
+   * past-zero is a clear step above, and the lightest revenue bin
+   * (cell-1) is brighter still AND purple.
+   *
+   * (NOTE on the brief's "future = lightest" phrasing: that's literally
+   * true in light mode by absolute luminance, but the underlying intent
+   * is "future ≈ near-bg." On dark, near-bg means DARK. Treating it
+   * the other way puts future cells louder than past-zero, which
+   * contradicts the squinting-test populations.)
+   *
+   * Cell-by-cell:
+   *   future     → neutral-800        #2a2a2a  (lum ~0.024; clearly above page, distinct from cards)
+   *   past-zero  → neutral-700        #4a4a4a  (lum ~0.070; 2.9× step above future; ≠4 rule-dark)
+   *   cell-1     → brand-700          #4f3d78  (lum ~0.067; hue-distinct purple, see note below)
+   *   cell-2     → brand-600          #6d4ea3
+   *   cell-3     → brand-500          #8b6fc0
+   *   cell-4     → brand-400          #a78bdb
+   *
+   * Three-population squint check at the locked values:
+   *   future (0.024) → past-zero (0.070)   = 2.9×   (≈4.6% abs luminance step;
+   *                                                 right at the 5–10% spec floor;
+   *                                                 clears rule-dark collision)
+   *   past-zero (0.070) → cell-1 (0.067)   = ~equal luminance, hue-distinct
+   *                                          (gray vs purple on near-black bg;
+   *                                          mirrors GitHub's lightest-activity
+   *                                          bin pattern, where hue carries the
+   *                                          "no data" vs "low data" signal)
+   *   cell-1 (0.067) → cell-5 (~0.50)      = 7.5×   (full ramp readable)
+   */
+  --heatmap-cell-1:           var(--color-brand-700);             /* #4f3d78 */
+  --heatmap-cell-2:           var(--color-brand-600);             /* #6d4ea3 */
+  --heatmap-cell-3:           var(--color-brand-500);             /* #8b6fc0 */
+  --heatmap-cell-4:           var(--color-brand-400);             /* #a78bdb */
+  --heatmap-cell-5:           var(--color-brand-300);             /* #c4b5fd */
+  --heatmap-cell-past-zero:   var(--color-neutral-700);           /* #4a4a4a */
+  --heatmap-cell-future:      var(--color-neutral-800);           /* #2a2a2a */
+  --heatmap-cell-outline:     color-mix(in srgb, var(--color-neutral-700), var(--color-neutral-800));
+
+  /* Gridline dark — sits BELOW --color-rule (#2a2a2a) in luminance so the
+   * zero-line and section rules read as primary, gridlines as backdrop.
+   * Resolves to roughly #1a191e — visible as graph-paper, subordinate. */
+  --color-gridline:           color-mix(in srgb, var(--color-surface-dark), var(--color-rule-dark) 50%);
 }
 
 html { color-scheme: light dark; }
