@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>tokens.css — alias smoke test (light + dark)</title>
+<!--
+  NOTE: this smoke test does NOT load the PR's tokens.css directly because
+  that file's `@theme { ... }` block is Tailwind v4 source — the raw browser
+  ignores it, so var() refs resolve empty. Instead we inline a plain :root
+  mirror of the values below. The aliases under that mirror are byte-
+  identical to what the PR's :root and html.dark blocks contain.
+-->
+<style>
+  /* ----- Mirror of @theme block (plain :root for raw-browser rendering) ----- */
+  :root {
+    /* Brand */
+    --color-brand-50: #f5f3ff; --color-brand-100: #ede9fe;
+    --color-brand-200: #ddd6fe; --color-brand-300: #c4b5fd;
+    --color-brand-400: #a78bdb; --color-brand-500: #8b6fc0;
+    --color-brand-600: #6d4ea3; --color-brand-700: #4f3d78;
+    --color-brand-800: #3d2e62; --color-brand-900: #2e224a;
+    --color-brand-950: #1a1333;
+
+    /* Neutrals */
+    --color-neutral-50: #fafafa; --color-neutral-100: #f2f1f4;
+    --color-neutral-200: #e5e5e5; --color-neutral-300: #dddddd;
+    --color-neutral-400: #aaaaaa; --color-neutral-500: #808080;
+    --color-neutral-600: #6e6e6e; --color-neutral-700: #4a4a4a;
+    --color-neutral-800: #2a2a2a; --color-neutral-900: #1a1a1a;
+    --color-neutral-950: #141218;
+
+    /* Paired surfaces / rule / error (the 6230a35 shape) */
+    --color-surface-light: #fafafa;        --color-surface-dark: #141218;
+    --color-surface-card-light: #f2f1f4;   --color-surface-card-dark: #1f1d24;
+    --color-rule-light: #dddddd;           --color-rule-dark: #2a2a2a;
+    --color-error-light: #b4232c;          --color-error-dark: #f07a82;
+
+    /* Faces (just enough for the demo to typeset readably) */
+    --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --color-focus-ring: var(--color-brand-700);
+
+    /* ----- Group A — semantic aliases (this PR) ----- */
+    --color-page:               var(--color-surface-light);
+    --color-card:               var(--color-surface-card-light);
+    --color-rule:               var(--color-rule-light);
+    --color-error:              var(--color-error-light);
+    --color-text-primary:       var(--color-neutral-900);
+    --color-text-secondary:     var(--color-neutral-700);
+    --color-text-caption:       var(--color-neutral-600);
+    --color-accent:             var(--color-brand-700);
+
+    /* ----- Group B — tooltip inversion ----- */
+    --color-surface-tooltip:    var(--color-neutral-900);
+    --color-text-on-tooltip:    var(--color-surface-light);
+
+    /* ----- Group C — heatmap ----- */
+    --heatmap-cell-1:           var(--color-brand-200);
+    --heatmap-cell-2:           var(--color-brand-400);
+    --heatmap-cell-3:           var(--color-brand-500);
+    --heatmap-cell-4:           var(--color-brand-700);
+    --heatmap-cell-5:           var(--color-brand-800);
+    --heatmap-cell-past-zero:   var(--color-neutral-300);
+    --heatmap-cell-future:      var(--color-neutral-200);
+    --heatmap-cell-outline:     color-mix(in srgb, var(--color-neutral-300), var(--color-neutral-400));
+
+    /* ----- Group D — gridline ----- */
+    --color-gridline:           var(--color-neutral-100);
+  }
+
+  /* ----- Dark frame: scoped wrapper that mimics html.dark { ... } ----- */
+  .frame.dark {
+    --color-focus-ring: var(--color-brand-400);
+
+    --color-page:               var(--color-surface-dark);
+    --color-card:               var(--color-surface-card-dark);
+    --color-rule:               var(--color-rule-dark);
+    --color-error:              var(--color-error-dark);
+    --color-text-primary:       var(--color-neutral-50);
+    --color-text-secondary:     var(--color-neutral-300);
+    --color-text-caption:       var(--color-neutral-400);
+    --color-accent:             var(--color-brand-500);
+
+    --color-surface-tooltip:    var(--color-neutral-100);
+    --color-text-on-tooltip:    var(--color-neutral-900);
+
+    --heatmap-cell-1:           var(--color-brand-700);
+    --heatmap-cell-2:           var(--color-brand-600);
+    --heatmap-cell-3:           var(--color-brand-500);
+    --heatmap-cell-4:           var(--color-brand-400);
+    --heatmap-cell-5:           var(--color-brand-300);
+    --heatmap-cell-past-zero:   var(--color-neutral-700);
+    --heatmap-cell-future:      var(--color-neutral-800);
+    --heatmap-cell-outline:     color-mix(in srgb, var(--color-neutral-700), var(--color-neutral-800));
+
+    --color-gridline:           color-mix(in srgb, var(--color-surface-dark), var(--color-rule-dark) 50%);
+  }
+
+  /* ----- Smoke-test layout / chrome ----- */
+  html, body { margin: 0; }
+  body {
+    background: var(--color-page);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    padding: 32px;
+  }
+  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 100vh; margin: -32px; }
+  .frame { background: var(--color-page); color: var(--color-text-primary); padding: 32px; }
+  .frame.dark { /* class wrapper, since we don't have <html.dark> here */ }
+  h1 { font-family: var(--font-display); font-size: 36px; line-height: 1.05; margin: 0 0 8px; }
+  h2 { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+       color: var(--color-text-caption); margin: 28px 0 10px; font-weight: 500; }
+  p { color: var(--color-text-secondary); max-width: 56ch; line-height: 1.5; margin: 0 0 12px; font-size: 14px; }
+  .caption { color: var(--color-text-caption); font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; }
+  .accent { color: var(--color-accent); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+  .chip {
+    background: var(--color-card);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--color-text-caption);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chip-swatch { width: 18px; height: 18px; border-radius: 3px; display: inline-block; border: 1px solid var(--color-rule); }
+  hr { border: 0; height: 1px; background: var(--color-rule); margin: 18px 0; }
+
+  /* Tooltip — inverted chrome */
+  .tooltip-demo {
+    display: inline-block;
+    background: var(--color-surface-tooltip);
+    color: var(--color-text-on-tooltip);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .04em;
+  }
+
+  /* Heatmap row */
+  .heat {
+    display: grid;
+    grid-template-columns: repeat(8, 28px);
+    gap: 4px;
+    margin: 12px 0 4px;
+  }
+  .heat > div {
+    width: 28px; height: 28px; border-radius: 3px;
+    outline: 1px solid var(--heatmap-cell-outline);
+    outline-offset: -1px;
+  }
+  .heat-future    { background: var(--heatmap-cell-future); }
+  .heat-past-zero { background: var(--heatmap-cell-past-zero); }
+  .heat-1 { background: var(--heatmap-cell-1); }
+  .heat-2 { background: var(--heatmap-cell-2); }
+  .heat-3 { background: var(--heatmap-cell-3); }
+  .heat-4 { background: var(--heatmap-cell-4); }
+  .heat-5 { background: var(--heatmap-cell-5); }
+
+  /* Gridline */
+  .grid-demo {
+    display: grid;
+    grid-template-rows: repeat(5, 24px);
+    width: 200px;
+    background:
+      linear-gradient(to top, var(--color-rule), var(--color-rule) 1px, transparent 1px) bottom no-repeat,
+      repeating-linear-gradient(to top, transparent, transparent 23px, var(--color-gridline) 23px, var(--color-gridline) 24px);
+    background-size: 100% 1px, 100% 100%;
+    border-left: 1px solid var(--color-rule);
+    margin: 12px 0 4px;
+  }
+
+  /* Error */
+  .error { color: var(--color-error); font-size: 13px; }
+
+  .label-pair { display: flex; gap: 24px; flex-wrap: wrap; }
+  .label-pair > div { min-width: 0; }
+  .ring {
+    width: 36px; height: 36px;
+    background: var(--color-card);
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 3px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- LIGHT FRAME -->
+  <div class="frame">
+    <h2>Light · alias resolution</h2>
+    <h1>The dashboard ships.</h1>
+    <p>This frame uses only <span class="accent">semantic alias tokens</span> — <span class="caption">no direct -light references</span>. Page, card, rule, ink ladder, accent, tooltip, heatmap, gridline. If any token didn't land in <code>:root</code>, you'd see a fallback white or a missing color here.</p>
+
+    <h2>Surfaces · ink · accent</h2>
+    <div class="row">
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-page);"></span>page</span>
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-card);"></span>card</span>
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-accent);"></span>accent</span>
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-error);"></span>error</span>
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-rule);"></span>rule</span>
+    </div>
+    <div class="row">
+      <span class="chip" style="color:var(--color-text-primary);">text-primary</span>
+      <span class="chip" style="color:var(--color-text-secondary);">text-secondary</span>
+      <span class="chip" style="color:var(--color-text-caption);">text-caption</span>
+    </div>
+
+    <h2>Tooltip · inverted chrome</h2>
+    <span class="tooltip-demo">$48,200 · MAR 14 · 12 hrs billed</span>
+
+    <h2>Heatmap · revenue ramp + neutral states</h2>
+    <div class="heat">
+      <div class="heat-future"></div>
+      <div class="heat-past-zero"></div>
+      <div class="heat-1"></div>
+      <div class="heat-2"></div>
+      <div class="heat-3"></div>
+      <div class="heat-4"></div>
+      <div class="heat-5"></div>
+      <div class="heat-future"></div>
+    </div>
+    <div class="caption">FUTURE &nbsp; PAST-ZERO &nbsp; CELL-1..5 &nbsp; FUTURE</div>
+
+    <h2>Gridline · subordinate to rule</h2>
+    <div class="grid-demo"></div>
+    <div class="caption">5 GRIDLINES + ZERO RULE (BOTTOM, HEAVIER)</div>
+
+    <h2>Focus ring</h2>
+    <span class="ring"></span>
+
+    <hr>
+    <p class="error">Error sample · this is what --color-error looks like in body copy.</p>
+  </div>
+
+  <!-- DARK FRAME -->
+  <div class="frame dark">
+    <h2>Dark · alias resolution</h2>
+    <h1>The dashboard ships.</h1>
+    <p>Same markup, <span class="accent">html.dark</span> applied at the wrapper. <span class="caption">Accent steps from brand-700 to brand-500</span>, tooltip inverts, heatmap dark ramp engages.</p>
+
+    <h2>Surfaces · ink · accent</h2>
+    <div class="row">
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-page);"></span>page</span>
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-card);"></span>card</span>
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-accent);"></span>accent</span>
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-error);"></span>error</span>
+      <span class="chip"><span class="chip-swatch" style="background:var(--color-rule);"></span>rule</span>
+    </div>
+    <div class="row">
+      <span class="chip" style="color:var(--color-text-primary);">text-primary</span>
+      <span class="chip" style="color:var(--color-text-secondary);">text-secondary</span>
+      <span class="chip" style="color:var(--color-text-caption);">text-caption</span>
+    </div>
+
+    <h2>Tooltip · inverted chrome</h2>
+    <span class="tooltip-demo">$48,200 · MAR 14 · 12 hrs billed</span>
+
+    <h2>Heatmap · revenue ramp + neutral states</h2>
+    <div class="heat">
+      <div class="heat-future"></div>
+      <div class="heat-past-zero"></div>
+      <div class="heat-1"></div>
+      <div class="heat-2"></div>
+      <div class="heat-3"></div>
+      <div class="heat-4"></div>
+      <div class="heat-5"></div>
+      <div class="heat-future"></div>
+    </div>
+    <div class="caption">FUTURE &nbsp; PAST-ZERO &nbsp; CELL-1..5 &nbsp; FUTURE</div>
+
+    <h2>Gridline · subordinate to rule</h2>
+    <div class="grid-demo"></div>
+    <div class="caption">5 GRIDLINES + ZERO RULE (BOTTOM, HEAVIER)</div>
+
+    <h2>Focus ring</h2>
+    <span class="ring"></span>
+
+    <hr>
+    <p class="error">Error sample · this is what --color-error looks like in body copy.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
